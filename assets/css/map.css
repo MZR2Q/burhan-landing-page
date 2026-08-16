@@ -50,13 +50,25 @@
   .halaqa-map-toolbar {
     position: static;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: flex-start;
     gap: var(--space-3);
-    padding-inline: var(--space-4);
+    padding-inline: 0;
     margin-bottom: var(--space-4);
   }
-  .halaqa-map-legend { justify-content: flex-start; width: 100%; }
+  /* صف رقائق أفقي قابل للتمرير بدل الالتفاف لسطرين — نمط خرائط الجوال المعتاد */
+  .halaqa-map-legend {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px var(--space-4) var(--space-2);
+    margin: 0;
+    scrollbar-width: none;
+  }
+  .halaqa-map-legend::-webkit-scrollbar { display: none; }
+  .halaqa-map-legend .chip { flex: none; scroll-snap-align: start; }
+  .halaqa-map-count { align-self: flex-start; margin-inline: var(--space-4); }
   #halaqa-map { height: 68vh; min-height: 480px; }
 }
 
@@ -86,6 +98,21 @@
 .halaqa-pin svg { width: 19px; height: 19px; }
 .halaqa-pin.hq-pin { width: 48px; height: 48px; }
 .halaqa-pin.hq-pin svg { width: 22px; height: 22px; }
+
+/* شارة تجمّع العلامات — تحل بشكل احترافي مشكلة تراكب عشرات الدبابيس بمساحة الجوال الضيقة */
+.halaqa-cluster {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--brand-700) 92%, transparent);
+  border: 3px solid #fff;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 14px rgba(18,41,61,0.35);
+}
+.marker-cluster { background: transparent !important; }
 
 .leaflet-control-attribution { font-size: 10px !important; background: color-mix(in srgb, var(--surface) 85%, transparent) !important; color: var(--text-muted) !important; }
 .leaflet-control-attribution a { color: var(--text-muted) !important; }
@@ -138,3 +165,41 @@
 .halaqa-info-stat .label { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px; }
 .halaqa-info-note { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--space-3); text-align: center; }
 .halaqa-info-directions { margin-top: var(--space-5); }
+
+.halaqa-info-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(8, 10, 14, 0.45);
+  z-index: 1290;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+.halaqa-map-wrap:has(.halaqa-info-panel[data-open='true']) .halaqa-info-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+.halaqa-info-handle { display: none; }
+
+/* على الجوال: لوحة المعلومات تنزلق من الأسفل (نمط "بطاقة منزلقة" المعتاد بخرائط الجوال) بدل تغطية الشاشة من اليسار */
+@media (max-width: 700px) {
+  .halaqa-info-panel {
+    top: auto; bottom: 0; left: 0; right: 0;
+    width: 100%;
+    max-height: 78vh;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -14px 36px rgba(10,14,20,0.3);
+    transform: translateY(105%);
+    padding-top: var(--space-6);
+  }
+  .halaqa-info-panel[data-open='true'] { transform: translateY(0); }
+  .halaqa-info-handle {
+    display: block;
+    position: absolute; top: var(--space-3); left: 50%;
+    transform: translateX(-50%);
+    width: 42px; height: 5px;
+    border-radius: var(--radius-full);
+    background: var(--border);
+  }
+  .halaqa-info-close { top: var(--space-4); left: var(--space-4); }
+  .halaqa-info-photo { aspect-ratio: 16/9; }
+}

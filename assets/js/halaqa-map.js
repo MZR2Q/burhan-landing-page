@@ -10,16 +10,17 @@
     dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
   };
   const ATTRIB = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>';
+  const isMobile = window.matchMedia('(max-width: 700px)').matches;
 
   function currentTheme() {
     // الفاتح دائماً الافتراضي ما لم يبدّل الزائر يدوياً — يطابق سلوك بقية الموقع
     return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
 
-  const map = L.map(el, { scrollWheelZoom: false, attributionControl: true, maxZoom: MAX_ZOOM });
+  const map = L.map(el, { scrollWheelZoom: false, attributionControl: true, maxZoom: MAX_ZOOM, tap: true });
   let tileLayer = L.tileLayer(TILES[currentTheme()], { attribution: ATTRIB, maxZoom: MAX_ZOOM, maxNativeZoom: 20 }).addTo(map);
 
-  // يفعّل التمرير بالعجلة فقط بعد نقرة، حتى لا يخطف تمرير الصفحة
+  // يفعّل التمرير بالعجلة فقط بعد نقرة، حتى لا يخطف تمرير الصفحة (سطح المكتب فقط — الجوال أصلاً بلمس)
   el.addEventListener('click', () => map.scrollWheelZoom.enable());
   document.addEventListener('click', (e) => {
     if (!el.contains(e.target)) map.scrollWheelZoom.disable();
@@ -38,14 +39,35 @@
 
   function pinIcon(color, category, isHq) {
     const svg = CATEGORY_ICON_SVG[category] || CATEGORY_ICON_SVG.boys;
+    const size = isHq ? 48 : isMobile ? 34 : 40;
     return L.divIcon({
       className: '',
       html: `<div class="halaqa-pin${isHq ? ' hq-pin' : ''}" style="background:${color}">${svg}</div>`,
-      iconSize: isHq ? [48, 48] : [40, 40],
-      iconAnchor: isHq ? [24, 24] : [20, 20],
-      popupAnchor: [0, -22],
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+      popupAnchor: [0, -size / 2],
     });
   }
+
+  // أيقونة تجمّع مخصّصة بألوان الهوية — تحل مشكلة تراكب العشرات من العلامات في مساحة الجوال الضيقة
+  function clusterIcon(cluster) {
+    const count = cluster.getChildCount();
+    const size = count < 8 ? 40 : count < 20 ? 48 : 56;
+    return L.divIcon({
+      html: `<div class="halaqa-cluster" style="width:${size}px;height:${size}px">${count}</div>`,
+      className: '',
+      iconSize: [size, size],
+    });
+  }
+
+  const clusterGroup = L.markerClusterGroup({
+    iconCreateFunction: clusterIcon,
+    maxClusterRadius: isMobile ? 60 : 44,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    disableClusteringAtZoom: 17,
+  });
+  map.addLayer(clusterGroup);
 
   function openPanel(p) {
     if (!panel) return;
@@ -66,6 +88,7 @@
     const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
 
     panel.innerHTML = `
+      <span class="halaqa-info-handle" aria-hidden="true"></span>
       <button class="halaqa-info-close" data-halaqa-close aria-label="إغلاق">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -77,10 +100,12 @@
       <a class="btn btn-primary btn-block halaqa-info-directions" href="${directionsUrl}" target="_blank" rel="noopener">الحصول على الاتجاهات</a>
     `;
     panel.setAttribute('data-open', 'true');
+    document.body.classList.add('halaqa-panel-open');
   }
 
   function closePanel() {
     if (panel) panel.removeAttribute('data-open');
+    document.body.classList.remove('halaqa-panel-open');
   }
 
   document.addEventListener('click', (e) => {
@@ -103,12 +128,12 @@
           if (pin) { pin.classList.add('is-active'); activePin = pin; }
           openPanel(p);
         });
-        marker.addTo(map);
+        clusterGroup.addLayer(marker);
         (markers[p.category] ||= []).push(marker);
         // العرض الافتراضي يُركّز على تجمّع حفر الباطن؛ الفروع البعيدة (كسامودة/الذيبية) تبقى مُعلَّمة على الخريطة وتظهر بالتصغير اليدوي، بلا إخفاء بيانات
         if (Math.abs(p.lat - HQ[0]) < 0.15 && Math.abs(p.lng - HQ[1]) < 0.15) cityBounds.push([p.lat, p.lng]);
       });
-      if (cityBounds.length) map.fitBounds(cityBounds, { padding: [28, 28], maxZoom: 14 });
+      if (cityBounds.length) map.fitBounds(cityBounds, { padding: [24, 24], maxZoom: isMobile ? 13 : 14 });
 
       const countEl = document.querySelector('[data-halaqa-count]');
       if (countEl) countEl.textContent = `${points.length} موقعاً موثّقاً`;
@@ -121,8 +146,9 @@
           Object.entries(markers).forEach(([key, list]) => {
             list.forEach((m) => {
               const show = cat === 'all' || cat === key;
-              if (show && !map.hasLayer(m)) m.addTo(map);
-              if (!show && map.hasLayer(m)) map.removeLayer(m);
+              const inGroup = clusterGroup.hasLayer(m);
+              if (show && !inGroup) clusterGroup.addLayer(m);
+              if (!show && inGroup) clusterGroup.removeLayer(m);
             });
           });
         });

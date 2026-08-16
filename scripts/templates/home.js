@@ -171,6 +171,7 @@ module.exports = function buildHome(data) {
         <span class="halaqa-map-count" data-halaqa-count>...</span>
       </div>
       <div id="halaqa-map"></div>
+      <div class="halaqa-info-backdrop" data-halaqa-close></div>
       <div class="halaqa-info-panel" data-halaqa-panel></div>
     </div>
   </section>
@@ -246,8 +247,8 @@ module.exports = function buildHome(data) {
     activePath: '/',
     transparentHeader: true,
     body,
-    extraCss: ['/assets/vendor/leaflet/leaflet.css', '/assets/css/map.css', '/assets/css/home.css'],
-    extraJs: ['/assets/vendor/leaflet/leaflet.js', '/assets/js/halaqa-map.js', '/assets/js/slider.js', '/assets/js/counters.js', '/assets/js/youtube-facade.js', '/assets/js/season.js'],
+    extraCss: ['/assets/vendor/leaflet/leaflet.css', '/assets/vendor/leaflet/MarkerCluster.css', '/assets/vendor/leaflet/MarkerCluster.Default.css', '/assets/css/map.css', '/assets/css/home.css'],
+    extraJs: ['/assets/vendor/leaflet/leaflet.js', '/assets/vendor/leaflet/leaflet.markercluster.js', '/assets/js/halaqa-map.js', '/assets/js/slider.js', '/assets/js/counters.js', '/assets/js/youtube-facade.js', '/assets/js/season.js'],
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'NGO',
