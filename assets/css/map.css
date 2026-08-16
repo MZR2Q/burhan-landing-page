@@ -56,7 +56,7 @@
     padding-inline: var(--space-4);
     margin-bottom: var(--space-4);
   }
-  .halaqa-map-legend { justify-content: flex-start; }
+  .halaqa-map-legend { justify-content: flex-start; width: 100%; }
   #halaqa-map { height: 68vh; min-height: 480px; }
 }
 
