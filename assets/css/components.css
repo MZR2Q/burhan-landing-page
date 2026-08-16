@@ -72,6 +72,7 @@
 }
 .card-news:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 .card-news .thumb { aspect-ratio: 16/9; overflow: hidden; position: relative; background: var(--brand-50); }
+.card-news .thumb picture { display: block; width: 100%; height: 100%; }
 .card-news .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms ease; }
 .card-news:hover .thumb img { transform: scale(1.06); }
 .card-news .thumb .badge { position: absolute; top: var(--space-3); inset-inline-end: var(--space-3); }
@@ -129,6 +130,7 @@
 }
 .card-campaign:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 .card-campaign .thumb { aspect-ratio: 4/3; overflow: hidden; }
+.card-campaign .thumb picture { display: block; width: 100%; height: 100%; }
 .card-campaign .thumb img { width: 100%; height: 100%; object-fit: cover; }
 .card-campaign .body { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
 .card-campaign .desc { font-size: var(--fs-sm); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin: 0; }
@@ -275,6 +277,7 @@
 
 /* --- إطار صورة غلاف الخبر --- */
 .news-cover-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 21/9; }
+.news-cover-frame picture { display: block; width: 100%; height: 100%; }
 .news-cover-frame img { width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 700px) { .news-cover-frame { aspect-ratio: 4/3; } }
 
@@ -386,6 +389,7 @@
 }
 .medallion:hover .medallion-badge { transform: scale(1.04) rotate(2deg); }
 .medallion-badge .inner { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 4px solid var(--surface); background: var(--brand-50); }
+.medallion-badge .inner picture { display: block; width: 100%; height: 100%; }
 .medallion-badge img { width: 100%; height: 100%; object-fit: cover; }
 .medallion-badge .count {
   position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
@@ -405,7 +409,6 @@
 
 .deco-host.on-light .deco-ornament { color: var(--brand-300); opacity: 0.12; }
 :root[data-theme='dark'] .deco-host.on-light .deco-ornament { color: var(--gold-500); opacity: 0.07; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .deco-host.on-light .deco-ornament { color: var(--gold-500); opacity: 0.07; } }
 /* دائماً على الطرف الأيسر الفعلي للشاشة (left، لا inline-start) — نصفها بالضبط خارج القسم */
 .deco-tr { top: 0; left: 0; transform: translate(-50%, -50%); }
 .deco-tl { top: 0; left: 0; transform: translate(-50%, -50%); }

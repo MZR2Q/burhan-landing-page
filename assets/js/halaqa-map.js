@@ -12,9 +12,8 @@
   const ATTRIB = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
   function currentTheme() {
-    const forced = document.documentElement.getAttribute('data-theme');
-    if (forced) return forced;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // الفاتح دائماً الافتراضي ما لم يبدّل الزائر يدوياً — يطابق سلوك بقية الموقع
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
 
   const map = L.map(el, { scrollWheelZoom: false, attributionControl: true, maxZoom: MAX_ZOOM });

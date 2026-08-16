@@ -37,6 +37,7 @@ body[data-season='muharram'] .hero-slide::after { background: linear-gradient(0d
   transition: opacity 900ms ease;
 }
 .hero-slide[data-active='true'] { opacity: 1; visibility: visible; z-index: 1; }
+.hero-slide picture { display: block; width: 100%; height: 100%; }
 .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
 .hero-slide::after {
   content: '';
