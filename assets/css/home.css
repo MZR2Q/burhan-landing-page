@@ -53,6 +53,13 @@ body[data-season='muharram'] .hero-slide::after { background: linear-gradient(0d
 .hero-caption .container { max-width: var(--container); }
 .hero-caption h2 { color: #fff; font-size: clamp(1.6rem, 1.2rem + 2vw, 2.75rem); max-width: 18ch; margin-bottom: var(--space-4); }
 .hero-caption .actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+@media (max-width: 640px) {
+  /* الصور نفسها فيها نصوص مطبوعة بأسفلها — نقلّص مساحة الطبقة النصية فوقها كي لا تتزاحم على الجوال */
+  .hero-caption { padding: var(--space-5) 0 var(--space-6); }
+  .hero-caption h2 { font-size: 1.3rem; line-height: 1.35; max-width: 22ch; margin-bottom: var(--space-3); }
+  .hero-caption .actions { gap: var(--space-2); }
+  .hero-caption .actions .btn { padding: var(--space-2) var(--space-4); font-size: var(--fs-sm); }
+}
 
 .hero-controls { position: absolute; inset-inline: 0; bottom: var(--space-6); z-index: 3; display: flex; justify-content: center; gap: var(--space-2); }
 .hero-dot { width: 34px; height: 4px; border-radius: var(--radius-full); background: rgba(255,255,255,0.35); overflow: hidden; }
@@ -81,6 +88,10 @@ body[data-season='muharram'] .hero-slide::after { background: linear-gradient(0d
 .news-scroller .card-news { flex: 0 0 300px; scroll-snap-align: start; }
 
 .section-header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-8); flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .section-header-row { flex-direction: column; align-items: flex-start; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .section-header-row .btn-secondary { align-self: flex-start; }
+}
 
 .video-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
 @media (max-width: 900px) { .video-strip { grid-template-columns: repeat(2, 1fr); } }
