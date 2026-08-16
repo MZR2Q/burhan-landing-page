@@ -59,8 +59,17 @@
 /* على الجوال: الهيدر الشفاف فوق صورة/فيديو البطل قد يجعل النص أبيض على خلفية فاتحة فيختفي —
    نثبّت خلفية العنوان الضبابية المعتادة دائماً على الجوال لضمان تباين واضح بلا رهان على لون الخلفية تحته */
 @media (max-width: 780px) {
+  /* --text/--text-muted معاد تعريفهما بالأبيض على الهيدر الشفاف افتراضاً (يفترض خلفية داكنة) —
+     نلغي ذلك هنا لأننا ثبّتنا خلفية ضبابية فاتحة بدل الشفافية، فيرث brand-name اللون الصحيح تلقائياً */
   .site-header.is-transparent:not(.is-scrolled) {
     background: color-mix(in srgb, var(--surface) 88%, transparent);
+    --text: var(--ink-900);
+    --text-muted: var(--ink-600);
+  }
+  :root[data-theme='dark'] .site-header.is-transparent:not(.is-scrolled) {
+    /* الخلفية الضبابية داكنة في الوضع الليلي، فيبقى النص الفاتح هو المناسب هنا */
+    --text: #f3f4f6;
+    --text-muted: #b7bbc6;
   }
   .site-header.is-transparent:not(.is-scrolled) .brand-name,
   .site-header.is-transparent:not(.is-scrolled) .brand-name small,
