@@ -80,7 +80,7 @@
 
     // شعار نصي
     try {
-      const logo = await loadImage('/assets/img/logo.png');
+      const logo = await loadImage('/burhan-landing-page/assets/img/logo.png');
       ctx.save();
       ctx.beginPath();
       ctx.arc(W / 2, 110, 46, 0, Math.PI * 2);

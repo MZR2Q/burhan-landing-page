@@ -88,7 +88,7 @@
     if (e.target.closest('[data-halaqa-close]')) closePanel();
   });
 
-  fetch('/data/halaqas.json')
+  fetch('/burhan-landing-page/data/halaqas.json')
     .then((r) => r.json())
     .then((points) => {
       const markers = {};
