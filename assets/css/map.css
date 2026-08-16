@@ -1,0 +1,131 @@
+/* خريطة الحلقات المخصّصة (Leaflet ذاتي الاستضافة — لا واجهة Google) */
+
+.halaqa-section { padding-block: 0 0; }
+.halaqa-section .section-head { padding-top: var(--space-10); }
+
+/* السكشن كامل = الخريطة تملأ عرض الشاشة بالكامل، بلا حاوية تحصرها */
+.full-bleed {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+}
+
+.halaqa-map-wrap { position: relative; margin-top: var(--space-6); }
+.halaqa-map-toolbar {
+  position: absolute;
+  top: var(--space-5);
+  inset-inline: 0;
+  z-index: 1200;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-inline: var(--space-6);
+  pointer-events: none;
+}
+.halaqa-map-toolbar > * { pointer-events: auto; }
+.halaqa-map-legend { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.halaqa-map-legend .chip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  box-shadow: 0 4px 14px rgba(18,41,61,0.22), 0 1px 3px rgba(18,41,61,0.12);
+}
+.halaqa-map-count {
+  font-size: var(--fs-sm); font-weight: 700; color: var(--text);
+  background: var(--surface); padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
+  box-shadow: 0 4px 14px rgba(18,41,61,0.22), 0 1px 3px rgba(18,41,61,0.12);
+}
+
+#halaqa-map {
+  width: 100%; height: 84vh; min-height: 620px; max-height: 900px;
+  background: var(--brand-50);
+  /* تندمج حواف الخريطة العلوية والسفلية بخلفية القسم بدل حافة صندوق حادة */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 64px, #000 calc(100% - 56px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 64px, #000 calc(100% - 56px), transparent 100%);
+}
+@media (max-width: 700px) {
+  .halaqa-map-toolbar { position: static; padding-inline: var(--space-4); margin-bottom: var(--space-4); }
+  #halaqa-map { height: 68vh; min-height: 480px; }
+}
+
+/* توهّج أطراف ناعم جداً — لمسة ضوء لا إطار صندوق */
+.halaqa-map-wrap::after {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 1100;
+  background:
+    radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--gold-300) 22%, transparent), transparent 65%),
+    radial-gradient(120% 60% at 50% 100%, color-mix(in srgb, var(--brand-300) 20%, transparent), transparent 65%);
+}
+
+/* أيقونة العلامة: شارة دائرية بأيقونة بدل الدبوس التقليدي */
+.halaqa-pin {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 3px solid #fff;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 160ms ease;
+}
+.halaqa-pin:hover, .halaqa-pin.is-active { transform: scale(1.15); }
+.halaqa-pin svg { width: 19px; height: 19px; }
+.halaqa-pin.hq-pin { width: 48px; height: 48px; }
+.halaqa-pin.hq-pin svg { width: 22px; height: 22px; }
+
+.leaflet-control-attribution { font-size: 10px !important; background: color-mix(in srgb, var(--surface) 85%, transparent) !important; color: var(--text-muted) !important; }
+.leaflet-control-attribution a { color: var(--text-muted) !important; }
+.leaflet-control-zoom { margin-top: 90px !important; }
+.leaflet-control-zoom a { background: var(--surface) !important; color: var(--text) !important; border-color: var(--border) !important; }
+@media (max-width: 700px) { .leaflet-control-zoom { margin-top: 8px !important; } }
+
+/* --- بطاقة معلومات الموقع: تظهر يسار الخريطة عند النقر على أي علامة --- */
+.halaqa-info-panel {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: min(380px, 88vw);
+  background: var(--surface);
+  box-shadow: 10px 0 36px rgba(10,14,20,0.28);
+  z-index: 1300;
+  overflow-y: auto;
+  transform: translateX(-105%);
+  transition: transform 340ms cubic-bezier(.2,.75,.25,1);
+  padding: var(--space-5);
+}
+.halaqa-info-panel[data-open='true'] { transform: translateX(0); }
+.halaqa-info-close {
+  position: absolute; top: var(--space-4); left: var(--space-4);
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--brand-50); color: var(--text);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+}
+.halaqa-info-close svg { width: 16px; height: 16px; }
+
+.halaqa-info-photo {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--brand-50), var(--brand-100));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--space-2);
+  color: var(--brand-300);
+  margin-bottom: var(--space-4);
+}
+.halaqa-info-photo svg { width: 52px; height: 52px; }
+.halaqa-info-photo span { font-size: var(--fs-xs); color: var(--text-muted); font-weight: 600; }
+
+.halaqa-info-cat { display: inline-block; margin-bottom: var(--space-2); }
+.halaqa-info-panel h3 { font-size: 1.15rem; margin-bottom: var(--space-4); line-height: 1.4; }
+
+.halaqa-info-stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+.halaqa-info-stat { background: var(--brand-50); border-radius: var(--radius-sm); padding: var(--space-3); text-align: center; }
+.halaqa-info-stat .num { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; color: var(--brand-700); }
+.halaqa-info-stat .num.unavailable { color: var(--text-muted); font-size: 1.1rem; }
+.halaqa-info-stat .label { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px; }
+.halaqa-info-note { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--space-3); text-align: center; }
+.halaqa-info-directions { margin-top: var(--space-5); }

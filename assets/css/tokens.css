@@ -1,0 +1,142 @@
+/* رموز التصميم — مستخرجة من هوية جمعية برهان الحقيقية (شعار + مطبوعات فعاليات) */
+:root {
+  /* أزرق برهان — الأساسي */
+  --brand-900: #12293d;
+  --brand-800: #17395030;
+  --brand-700: #1f4c6e;
+  --brand-600: #2d6187;
+  --brand-500: #3a6d98;
+  --brand-400: #5d8aaf;
+  --brand-300: #8fabc4;
+  --brand-200: #b9cfde;
+  --brand-100: #dbe7ef;
+  --brand-50: #eef4f8;
+
+  /* ذهبي برهان — ثانوي، للتمييز فقط */
+  --gold-700: #8c7a45;
+  --gold-500: #b4a66f;
+  --gold-300: #d8cda0;
+  --gold-100: #f3eedd;
+
+  /* نيلي الفعاليات — مؤكِّد، للتبرع والدعوة للفعل */
+  --accent-700: #423e78;
+  --accent-600: #4f4a94;
+  --accent-500: #635fab;
+  --accent-400: #8480c0;
+  --accent-100: #e8e7f5;
+
+  /* محايدات */
+  --ink-900: #1a1d24;
+  --ink-700: #363b47;
+  --ink-600: #545a66;
+  --ink-400: #8b90a0;
+  --ink-200: #c7cbd4;
+  --paper-0: #ffffff;
+  --paper-50: #f7f8fa;
+  --paper-100: #eef0f3;
+  --line: #e4e7ec;
+
+  /* دلالات */
+  --success: #2f8f5b;
+  --danger: #c0392b;
+  --warning: #b4862f;
+
+  /* أدوار عامة (تتغيّر بالوضع الليلي أدناه) */
+  --bg: var(--paper-50);
+  --surface: var(--paper-0);
+  --text: var(--ink-900);
+  --text-muted: var(--ink-600);
+  --border: var(--line);
+  --focus-ring: var(--accent-500);
+
+  /* الطباعة */
+  --font-display: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+
+  --fs-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
+  --fs-h1: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  --fs-h2: clamp(1.5rem, 1.3rem + 0.8vw, 1.875rem);
+  --fs-h3: 1.375rem;
+  --fs-body-lg: 1.125rem;
+  --fs-body: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+
+  --lh-tight: 1.25;
+  --lh-normal: 1.6;
+  --lh-loose: 1.9;
+
+  /* مسافات */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+
+  /* هندسة */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 3px rgba(18, 41, 61, 0.08);
+  --shadow-md: 0 8px 24px -8px rgba(18, 41, 61, 0.18);
+  --shadow-lg: 0 24px 48px -16px rgba(18, 41, 61, 0.24);
+
+  --container: 1240px;
+  --transition: 220ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* الوضع الليلي: افتراضي حسب تفضيل النظام */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #14161c;
+    --surface: #1b1e26;
+    --surface-2: #212430;
+    --text: #f3f4f6;
+    --text-muted: #b7bbc6;
+    --border: #2a2e38;
+    --brand-50: #1c2733;
+    --gold-100: #2a2617;
+    --accent-100: #23213a;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 24px 48px -16px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* تبديل يدوي عبر مفتاح الوضع الليلي (يُخزَّن في localStorage) */
+:root[data-theme='dark'] {
+  --bg: #14161c;
+  --surface: #1b1e26;
+  --surface-2: #212430;
+  --text: #f3f4f6;
+  --text-muted: #b7bbc6;
+  --border: #2a2e38;
+  --brand-50: #1c2733;
+  --gold-100: #2a2617;
+  --accent-100: #23213a;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 24px 48px -16px rgba(0, 0, 0, 0.6);
+}
+:root[data-theme='light'] {
+  --bg: var(--paper-50);
+  --surface: var(--paper-0);
+  --text: var(--ink-900);
+  --text-muted: var(--ink-600);
+  --border: var(--line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

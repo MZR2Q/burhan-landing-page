@@ -1,0 +1,102 @@
+/* أنماط خاصة بالصفحة الرئيسية */
+
+/* --- الشريط الموسمي: يظهر تلقائياً بجافاسكربت حسب الشهر الهجري الحالي --- */
+.season-strip {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  text-align: center;
+  padding: var(--space-3) var(--space-5);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  color: #fff;
+  position: relative;
+  z-index: 5;
+  flex-wrap: wrap;
+}
+.season-strip[data-active='true'] { display: flex; }
+.season-strip .icon { width: 20px; height: 20px; flex: none; }
+.season-strip a { text-decoration: underline; text-underline-offset: 3px; opacity: 0.95; }
+.season-strip a:hover { opacity: 1; }
+
+body[data-season='ramadan'] .season-strip { background: linear-gradient(90deg, #2f6b4f, #1c4a35); }
+body[data-season='eidFitr'] .season-strip { background: linear-gradient(90deg, var(--gold-700), #8a6d1f); }
+body[data-season='hajjEidAdha'] .season-strip { background: linear-gradient(90deg, #6b4a2f, #4a3320); }
+body[data-season='muharram'] .season-strip { background: linear-gradient(90deg, var(--accent-700), var(--accent-600)); }
+
+/* تلوين خفيف لتراكب السلايدر حسب الموسم — لمسة لا تغيير جذري */
+body[data-season='ramadan'] .hero-slide::after { background: linear-gradient(0deg, rgba(20,40,25,0.86) 0%, rgba(20,40,25,0.3) 45%, rgba(20,40,25,0.1) 100%); }
+body[data-season='hajjEidAdha'] .hero-slide::after { background: linear-gradient(0deg, rgba(40,28,18,0.86) 0%, rgba(40,28,18,0.3) 45%, rgba(40,28,18,0.1) 100%); }
+body[data-season='muharram'] .hero-slide::after { background: linear-gradient(0deg, rgba(26,22,50,0.86) 0%, rgba(26,22,50,0.3) 45%, rgba(26,22,50,0.1) 100%); }
+
+.hero-slider { position: relative; height: min(92vh, 820px); min-height: 520px; overflow: hidden; background: var(--brand-900); }
+.hero-slide {
+  position: absolute; inset: 0;
+  opacity: 0; visibility: hidden;
+  transition: opacity 900ms ease;
+}
+.hero-slide[data-active='true'] { opacity: 1; visibility: visible; z-index: 1; }
+.hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+.hero-slide::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(10,14,20,0.82) 0%, rgba(10,14,20,0.35) 45%, rgba(10,14,20,0.15) 100%);
+}
+.hero-caption {
+  position: absolute; inset-inline: 0; bottom: 0;
+  z-index: 2;
+  padding: var(--space-12) 0 var(--space-10);
+  color: #fff;
+}
+.hero-caption .container { max-width: var(--container); }
+.hero-caption h2 { color: #fff; font-size: clamp(1.6rem, 1.2rem + 2vw, 2.75rem); max-width: 18ch; margin-bottom: var(--space-4); }
+.hero-caption .actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+.hero-controls { position: absolute; inset-inline: 0; bottom: var(--space-6); z-index: 3; display: flex; justify-content: center; gap: var(--space-2); }
+.hero-dot { width: 34px; height: 4px; border-radius: var(--radius-full); background: rgba(255,255,255,0.35); overflow: hidden; }
+.hero-dot > span { display: block; height: 100%; width: 0; background: var(--gold-500); }
+.hero-dot[data-active='true'] > span { animation: hero-progress 6.5s linear forwards; }
+@keyframes hero-progress { from { width: 0; } to { width: 100%; } }
+
+.hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.14); color: #fff; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+.hero-arrow.prev { inset-inline-start: var(--space-6); }
+.hero-arrow.next { inset-inline-end: var(--space-6); }
+@media (min-width: 720px) { .hero-arrow { display: flex; } }
+.hero-arrow svg { width: 22px; height: 22px; }
+
+/* تيزر عن الجمعية */
+.about-teaser .bento { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+.about-teaser .bento img { border-radius: var(--radius-md); aspect-ratio: 1; object-fit: cover; width: 100%; height: 100%; }
+.about-teaser .bento a:first-child { grid-column: 1 / -1; }
+.about-teaser .bento a:first-child img { aspect-ratio: 16/9; }
+.teaser-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-10); align-items: center; }
+@media (max-width: 860px) { .teaser-grid { grid-template-columns: 1fr; gap: var(--space-6); } }
+
+/* شريط الأخبار */
+.news-scroller { display: flex; gap: var(--space-5); overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: var(--space-3); margin: 0 calc(var(--space-5) * -1); padding-inline: var(--space-5); }
+.news-scroller::-webkit-scrollbar { height: 8px; }
+.news-scroller::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-full); }
+.news-scroller .card-news { flex: 0 0 300px; scroll-snap-align: start; }
+
+.section-header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-8); flex-wrap: wrap; }
+
+.video-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+@media (max-width: 900px) { .video-strip { grid-template-columns: repeat(2, 1fr); } }
+
+.project-feature { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: center; background: var(--surface); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+.project-feature img { width: 100%; height: 100%; object-fit: cover; min-height: 280px; }
+.project-feature .body { padding: var(--space-8); }
+@media (max-width: 800px) { .project-feature { grid-template-columns: 1fr; } .project-feature img { aspect-ratio: 16/9; min-height: 0; } }
+
+.awards-strip { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+.award-pill { display: flex; align-items: center; gap: var(--space-3); background: var(--gold-100); color: var(--gold-700); padding: var(--space-3) var(--space-5); border-radius: var(--radius-full); font-weight: 700; font-size: var(--fs-sm); }
+.award-pill svg { width: 20px; height: 20px; }
+
+.partners-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+@media (max-width: 700px) { .partners-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* --- خريطة الحلقات الحقيقية --- */
+.halaqa-map-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
+.halaqa-map-frame iframe { width: 100%; height: 480px; border: 0; display: block; }
+@media (max-width: 700px) { .halaqa-map-frame iframe { height: 360px; } }
