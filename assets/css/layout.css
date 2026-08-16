@@ -55,6 +55,19 @@
   .header-actions .btn-donate span { display: none; }
   .brand-name small { display: none; }
 }
+
+/* على الجوال: الهيدر الشفاف فوق صورة/فيديو البطل قد يجعل النص أبيض على خلفية فاتحة فيختفي —
+   نثبّت خلفية العنوان الضبابية المعتادة دائماً على الجوال لضمان تباين واضح بلا رهان على لون الخلفية تحته */
+@media (max-width: 780px) {
+  .site-header.is-transparent:not(.is-scrolled) {
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+  }
+  .site-header.is-transparent:not(.is-scrolled) .brand-name,
+  .site-header.is-transparent:not(.is-scrolled) .brand-name small,
+  .site-header.is-transparent:not(.is-scrolled) .nav-link {
+    color: var(--text);
+  }
+}
 .nav-toggle {
   display: inline-flex;
   width: 44px; height: 44px;
@@ -103,6 +116,8 @@
 .nav-drawer .nav-link { display: block; padding: var(--space-3) var(--space-4); }
 .nav-drawer .sub-links { list-style: none; margin: var(--space-1) var(--space-4); padding-inline-start: var(--space-4); border-inline-start: 2px solid var(--border); display: flex; flex-direction: column; }
 .nav-drawer .sub-links a { display: block; padding: var(--space-2) var(--space-2); color: var(--text-muted); font-size: var(--fs-sm); }
+.nav-drawer .accordion-trigger { color: var(--text-muted); font-size: var(--fs-sm); }
+.nav-drawer li:has(.sub-links) { padding-bottom: var(--space-2); margin-bottom: var(--space-1); border-bottom: 1px solid var(--border); }
 
 /* التذييل */
 .site-footer { background: var(--brand-900); color: rgba(255,255,255,0.82); padding-block: var(--space-10) var(--space-6); margin-top: var(--space-12); }

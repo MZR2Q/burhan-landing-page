@@ -31,7 +31,7 @@ function drawerHtml(activePath) {
       const active = isActive(item.href);
       const sub = item.children
         ? `<button class="accordion-trigger" data-sub-toggle aria-expanded="false" style="padding:var(--space-2) var(--space-4);font-size:var(--fs-sm)">
-             <span>الفروع</span>${icons.chevronDown}
+             <span>المزيد</span>${icons.chevronDown}
            </button>
            <ul class="sub-links" style="display:none">
              ${item.children.map((c) => `<li><a href="${c.href}">${c.label}</a></li>`).join('')}
