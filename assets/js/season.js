@@ -47,7 +47,7 @@
   strip.innerHTML = `
     <span class="icon" aria-hidden="true">${season.icon || ''}</span>
     <span>${season.greeting}</span>
-    ${season.article ? `<a href="/news/${season.article.slug}.html">${season.article.titleAr} ←</a>` : ''}
+    ${season.article ? `<a href="/burhan-landing-page/news/${season.article.slug}.html">${season.article.titleAr} ←</a>` : ''}
   `;
   strip.setAttribute('data-active', 'true');
 })();

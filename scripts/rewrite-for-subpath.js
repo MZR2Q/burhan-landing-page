@@ -28,7 +28,7 @@ let htmlCount = 0, cssCount = 0, jsCount = 0;
 walk(ROOT, ['.html'], (file) => {
   let c = fs.readFileSync(file, 'utf8');
   const before = c;
-  c = c.replace(/(href|src)="\/(?!\/)/g, `$1="${BASE_PATH}/`);
+  c = c.replace(/(href|src|srcset|data-lightbox-src)="\/(?!\/)/g, `$1="${BASE_PATH}/`);
   if (c !== before) { fs.writeFileSync(file, c); htmlCount++; }
 });
 
@@ -43,6 +43,8 @@ walk(path.join(ROOT, 'assets', 'js'), ['.js'], (file) => {
   let c = fs.readFileSync(file, 'utf8');
   const before = c;
   c = c.replace(/(fetch|loadImage)\((['"])\/(?!\/)/g, `$1($2${BASE_PATH}/`);
+  // روابط تُبنى وقت التشغيل داخل قوالب نصية بجافاسكربت (مثال: season.js يبني <a href="/news/...">)
+  c = c.replace(/(href|src)="\/(?!\/)/g, `$1="${BASE_PATH}/`);
   if (c !== before) { fs.writeFileSync(file, c); jsCount++; }
 });
 
