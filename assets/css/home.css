@@ -89,8 +89,10 @@ body[data-season='muharram'] .hero-slide::after { background: linear-gradient(0d
 
 .section-header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-8); flex-wrap: wrap; }
 @media (max-width: 640px) {
-  .section-header-row { flex-direction: column; align-items: flex-start; gap: var(--space-3); margin-bottom: var(--space-6); }
-  .section-header-row .btn-secondary { align-self: flex-start; }
+  .section-header-row { align-items: center; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .section-header-row .section-head { margin-bottom: 0; }
+  .section-header-row h2 { font-size: 1.2rem; line-height: 1.3; }
+  .section-header-row .btn-secondary { flex-shrink: 0; padding: var(--space-2) var(--space-4); font-size: var(--fs-sm); white-space: nowrap; }
 }
 
 .video-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
